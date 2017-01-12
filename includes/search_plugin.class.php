@@ -128,7 +128,7 @@ abstract class LinkitSearchPlugin implements LinkitSearchPluginInterface {
 
   /**
    * Generate a settings form for this handler.
-   * Uses the standard Drupal FAPI.
+   * Uses the standard Backdrop FAPI.
    *
    * @return
    *   An array containing any custom form elements to be displayed in the

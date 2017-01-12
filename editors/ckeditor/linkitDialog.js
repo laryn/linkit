@@ -4,19 +4,19 @@
  */
 (function ($) {
 
-// Abort if Drupal.linkit is not defined.
-if (typeof Drupal.linkit === 'undefined') {
+// Abort if Backdrop.linkit is not defined.
+if (typeof Backdrop.linkit === 'undefined') {
   return ;
 }
 
-Drupal.linkit.registerDialogHelper('ckeditor', {
+Backdrop.linkit.registerDialogHelper('ckeditor', {
   init : function() {},
 
   /**
    * Prepare the dialog after init.
    */
   afterInit : function () {
-     var editor = Drupal.settings.linkit.currentInstance.editor;
+     var editor = Backdrop.settings.linkit.currentInstance.editor;
      var element = CKEDITOR.plugins.link.getSelectedLink(editor);
 
     // If we have selected a link element, lets populate the fields in the
@@ -27,14 +27,14 @@ Drupal.linkit.registerDialogHelper('ckeditor', {
         attributes: {}
       },
       // Get all attributes that have fields in the modal.
-      additionalAttributes = Drupal.linkit.additionalAttributes();
+      additionalAttributes = Backdrop.linkit.additionalAttributes();
 
       for (var i = 0; i < additionalAttributes.length; i++) {
         link.attributes[additionalAttributes[i]] = element.getAttribute(additionalAttributes[i]);
       }
 
       // Populate the fields.
-      Drupal.linkit.populateFields(link);
+      Backdrop.linkit.populateFields(link);
     }
   },
 
@@ -45,7 +45,7 @@ Drupal.linkit.registerDialogHelper('ckeditor', {
    *   The link object.
    */
   insertLink : function(link) {
-    var editor = Drupal.settings.linkit.currentInstance.editor;
+    var editor = Backdrop.settings.linkit.currentInstance.editor;
     CKEDITOR.tools.callFunction(editor._.linkitFnNum, link, editor);
   }
 });

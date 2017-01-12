@@ -19,7 +19,7 @@
 
       // Add Button.
       editor.ui.addButton( 'linkit', {
-        label: Drupal.t('Link to content'),
+        label: Backdrop.t('Link to content'),
         command: 'linkit'
       });
 
@@ -34,31 +34,31 @@
         // FOR ACF in ckeditor 4.1+, allow everything.
         allowedContent: 'a[*]{*}(*)',
         exec : function () {
-          if (typeof Drupal.settings.linkit === 'undefined') {
-            alert(Drupal.t('Could not find the Linkit profile.'));
+          if (typeof Backdrop.settings.linkit === 'undefined') {
+            alert(Backdrop.t('Could not find the Linkit profile.'));
             return ;
           }
 
           // Set the editor object.
-          Drupal.settings.linkit.currentInstance.editor = editor;
+          Backdrop.settings.linkit.currentInstance.editor = editor;
           // Find the current input format of the field we're looking at.
           var format = '';
-          if (Drupal.wysiwyg) { // If using the WYSIWYG module with CKEditor as the editor
+          if (Backdrop.wysiwyg) { // If using the WYSIWYG module with CKEditor as the editor
             // Note that WYSIWYG prepends "profile" to the profile name, so we use .substring() to remove the "format".
-            format = Drupal.wysiwyg.instances[editor.name].format.substring(6);
+            format = Backdrop.wysiwyg.instances[editor.name].format.substring(6);
           }
-          else if (Drupal.settings.ckeditor) { // If using the CKEditor module
-            format = Drupal.settings.ckeditor.elements[editor.name];
+          else if (Backdrop.settings.ckeditor) { // If using the CKEditor module
+            format = Backdrop.settings.ckeditor.elements[editor.name];
           } else {
-            alert(Drupal.t('Could not find the Linkit profile.'));
+            alert(Backdrop.t('Could not find the Linkit profile.'));
             return;
           }
           // Set profile based on the current text format of this field.
-          Drupal.settings.linkit.currentInstance.profile = Drupal.settings.linkit.formats[format].profile;
+          Backdrop.settings.linkit.currentInstance.profile = Backdrop.settings.linkit.formats[format].profile;
           // Set the name of the source field.
-          Drupal.settings.linkit.currentInstance.source = editor.name;
+          Backdrop.settings.linkit.currentInstance.source = editor.name;
           // Set the source type.
-          Drupal.settings.linkit.currentInstance.helper = 'ckeditor';
+          Backdrop.settings.linkit.currentInstance.helper = 'ckeditor';
 
           var selection = editor.getSelection(),
             element = null;
@@ -73,7 +73,7 @@
           }
 
           // Save the selection.
-          Drupal.settings.linkit.currentInstance.selection = selection;
+          Backdrop.settings.linkit.currentInstance.selection = selection;
 
           // Lock the selecton for IE.
           if (CKEDITOR.env.ie && typeof selection !== 'undefined') {
@@ -81,10 +81,10 @@
           }
 
           // Save the selected element.
-          Drupal.settings.linkit.currentInstance.selectedElement = element;
+          Backdrop.settings.linkit.currentInstance.selectedElement = element;
 
           // Create the modal.
-          Drupal.linkit.createModal();
+          Backdrop.linkit.createModal();
         }
       });
 
@@ -96,7 +96,7 @@
 
         editor.addMenuItems({
           linkit: {
-            label: Drupal.t('Link to content'),
+            label: Backdrop.t('Link to content'),
             command: 'linkit',
             group: 'Linkit',
             order: 0
@@ -161,11 +161,11 @@
     // Browser need the "href" for copy/paste link to work. (CKEDITOR ISSUE #6641)
     data.attributes['data-cke-saved-href'] = data.path;
 
-    if (!Drupal.settings.linkit.currentInstance.selectedElement) {
+    if (!Backdrop.settings.linkit.currentInstance.selectedElement) {
       // We have not selected any link element so lets create a new one.
       var range = (selection.getType() === CKEDITOR.SELECTION_ELEMENT) ? selection.getRanges()[0] : selection.getRanges(1)[0];
       if (range.collapsed) {
-        var content = (Drupal.settings.linkit.currentInstance.linkContent) ? Drupal.settings.linkit.currentInstance.linkContent : data.path;
+        var content = (Backdrop.settings.linkit.currentInstance.linkContent) ? Backdrop.settings.linkit.currentInstance.linkContent : data.path;
         var text = new CKEDITOR.dom.text(content , editor.document);
         range.insertNode(text);
         range.selectNodeContents(text);
@@ -183,7 +183,7 @@
       range.select();
     }
     else {
-      var element = Drupal.settings.linkit.currentInstance.selectedElement;
+      var element = Backdrop.settings.linkit.currentInstance.selectedElement;
       // We are editing an existing link, so just overwrite the attributes.
       element.setAttribute('href', data.path);
       element.setAttribute('data-cke-saved-href', data.path);

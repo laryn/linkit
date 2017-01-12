@@ -322,7 +322,7 @@ function _linkit_build_insert_plugin_form_fields(&$form, LinkitProfile $profile)
       LINKIT_URL_METHOD_RAW_SLASH => t('Raw paths, with a slash (/) in the beginning.'),
     ),
     LINKIT_URL_METHOD_RAW => array(
-      '#description' => t('This will insert Drupal internal paths like
+      '#description' => t('This will insert Backdrop internal paths like
          %example_link which is probably what you want if you are going to use
          this profile together with <strong>fields</strong>.
          <br/>If used in textareas, these paths typically need to be formatted

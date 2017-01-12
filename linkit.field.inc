@@ -43,7 +43,7 @@ function linkit_linkit_allowed_field_types() {
 function linkit_get_allowed_field_types() {
   // Get allowed field and widget types.
   $allowed_field_types = module_invoke_all('linkit_allowed_field_types');
-  drupal_alter('linkit_allowed_field_types', $allowed_field_types);
+  backdrop_alter('linkit_allowed_field_types', $allowed_field_types);
   return $allowed_field_types;
 }
 
@@ -68,7 +68,7 @@ function linkit_linkit_allowed_field_elements() {
 function linkit_get_allowed_field_elements() {
   // Get allowed field and widget types.
   $allowed_field_elements = module_invoke_all('linkit_allowed_field_elements');
-  drupal_alter('linkit_allowed_field_elements', $allowed_field_elements);
+  backdrop_alter('linkit_allowed_field_elements', $allowed_field_elements);
   return $allowed_field_elements;
 }
 
@@ -93,7 +93,7 @@ function linkit_linkit_allowed_field_widget_types() {
 function linkit_get_allowed_field_widget_types() {
   // Get allowed field and widget types.
   $allowed_field_widget_types = module_invoke_all('linkit_allowed_field_widget_types');
-  drupal_alter('linkit_allowed_field_widget_types', $allowed_field_widget_types);
+  backdrop_alter('linkit_allowed_field_widget_types', $allowed_field_widget_types);
   return $allowed_field_widget_types;
 }
 

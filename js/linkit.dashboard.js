@@ -5,48 +5,48 @@
 
 (function ($) {
 
-Drupal.behaviors.linkitDashboard = {
+Backdrop.behaviors.linkitDashboard = {
   attach: function (context, settings) {
     // Bind the insert link button.
     $('.linkit-insert', context).once('linkit-insert', function() {
       $('.linkit-insert', context).click(function(event) {
         event.preventDefault();
         // Call the insertLink() function.
-        Drupal.linkit.getDialogHelper(Drupal.settings.linkit.currentInstance.helper).insertLink(Drupal.linkit.getLink());
+        Backdrop.linkit.getDialogHelper(Backdrop.settings.linkit.currentInstance.helper).insertLink(Backdrop.linkit.getLink());
 
         // Close the dialog.
-        Drupal.linkit.modalClose();
+        Backdrop.linkit.modalClose();
       });
     });
 
     // Bind the close link.
     $('#linkit-cancel', context).once('linkit-cancel', function() {
-      $('#linkit-cancel', context).bind('click', Drupal.linkit.modalClose);
+      $('#linkit-cancel', context).bind('click', Backdrop.linkit.modalClose);
     });
 
     // Run the validation if the path field is populated directly.
     $('#edit-linkit-path', context).bind('keyup paste input propertychange', function(){
-      Drupal.linkit.requiredFieldsValidation();
+      Backdrop.linkit.requiredFieldsValidation();
     });
 
     $(".ui-dialog-titlebar").show();
 
     // Run required field validation.
-    Drupal.linkit.requiredFieldsValidation();
+    Backdrop.linkit.requiredFieldsValidation();
 
-    if (!Drupal.settings.linkit.currentInstance.suppressProfileChanger) {
+    if (!Backdrop.settings.linkit.currentInstance.suppressProfileChanger) {
       // Make the profile changer
-      Drupal.linkit.profileChanger(context);
+      Backdrop.linkit.profileChanger(context);
     }
-    if (Drupal.settings.linkit.IMCEurl && !$('#linkit-imce', context).length) {
+    if (Backdrop.settings.linkit.IMCEurl && !$('#linkit-imce', context).length) {
       var $imceButton = $('<input />')
         .attr({type: 'button', id: 'linkit-imce', name: 'linkit-imce'})
         .addClass('form-submit')
-        .val(Drupal.t('Open file browser'))
+        .val(Backdrop.t('Open file browser'))
         .insertAfter($('.form-item-linkit-search', context))
         .click(function(e) {
           e.preventDefault();
-          Drupal.linkit.openFileBrowser();
+          Backdrop.linkit.openFileBrowser();
         });
     }
   }
@@ -56,7 +56,7 @@ Drupal.behaviors.linkitDashboard = {
  * Check for mandatory fields in the form and disable for submissions
  * if any of the fields are empty.
  */
-Drupal.linkit.requiredFieldsValidation = function() {
+Backdrop.linkit.requiredFieldsValidation = function() {
   var allowed = true;
   $('#linkit-modal .required').each(function() {
     if (!$(this).val()) {
@@ -79,8 +79,8 @@ Drupal.linkit.requiredFieldsValidation = function() {
 /**
  * Open the IMCE file browser
  */
-Drupal.linkit.openFileBrowser = function () {
-  window.open(decodeURIComponent(Drupal.settings.linkit.IMCEurl), '', 'width=760,height=560,resizable=1');
+Backdrop.linkit.openFileBrowser = function () {
+  window.open(decodeURIComponent(Backdrop.settings.linkit.IMCEurl), '', 'width=760,height=560,resizable=1');
 };
 
 /**
@@ -92,10 +92,10 @@ Drupal.linkit.openFileBrowser = function () {
  * @param win
  *   The IMCE window object
  */
-Drupal.linkit.IMCECallback = function(file, win) {
-  Drupal.linkit.populateFields({
-     path: win.imce.decode(Drupal.settings.basePath +
-         Drupal.settings.linkit.publicFilesDirectory + '/' + file.relpath)
+Backdrop.linkit.IMCECallback = function(file, win) {
+  Backdrop.linkit.populateFields({
+     path: win.imce.decode(Backdrop.settings.basePath +
+         Backdrop.settings.linkit.publicFilesDirectory + '/' + file.relpath)
   });
   win.close();
 };
@@ -108,7 +108,7 @@ Drupal.linkit.IMCECallback = function(file, win) {
  *   - path: The anchor's href.
  *   - attributes: An object with additional attributes for the anchor element.
  */
-Drupal.linkit.populateFields = function(link) {
+Backdrop.linkit.populateFields = function(link) {
   link = link || {};
   link.attributes = link.attributes || {};
 
@@ -119,7 +119,7 @@ Drupal.linkit.populateFields = function(link) {
   });
 
   // Run required field validation.
-  Drupal.linkit.requiredFieldsValidation();
+  Backdrop.linkit.requiredFieldsValidation();
 };
 
 /**
@@ -128,12 +128,12 @@ Drupal.linkit.populateFields = function(link) {
  * @return
  *   The link object.
  */
- Drupal.linkit.getLink = function() {
+ Backdrop.linkit.getLink = function() {
     var link = {
       path: $('#linkit-modal .linkit-path-element ').val(),
       attributes: {}
     };
-    $.each(Drupal.linkit.additionalAttributes(), function(f, name) {
+    $.each(Backdrop.linkit.additionalAttributes(), function(f, name) {
      link.attributes[name] = $('#linkit-modal .linkit-attributes .linkit-attribute-' + name).val();
     });
   return link;
@@ -146,7 +146,7 @@ Drupal.linkit.populateFields = function(link) {
  * @return
  *   An array with the names of the attributes.
  */
-Drupal.linkit.additionalAttributes = function() {
+Backdrop.linkit.additionalAttributes = function() {
   var attributes = [];
   $('#linkit-modal .linkit-attributes .linkit-attribute').each(function() {
     // Remove the 'linkit_' prefix.
@@ -155,11 +155,11 @@ Drupal.linkit.additionalAttributes = function() {
   return attributes;
 };
 
-Drupal.linkit.profileChanger = function(context) {
+Backdrop.linkit.profileChanger = function(context) {
   $('#linkit-profile-changer > div.form-item', context).once('linkit-change-profile', function() {
     var target = $(this);
     var toggler = $('<div id="linkit-profile-changer-toggler"></div>')
-    .html(Drupal.t('Change profile'))
+    .html(Backdrop.t('Change profile'))
     .click(function() {
       target.slideToggle();
     });
@@ -169,27 +169,27 @@ Drupal.linkit.profileChanger = function(context) {
   $('#linkit-profile-changer .form-radio', context).each(function() {
     var id = $(this).attr('id');
     var profile = $(this).val();
-    if (typeof Drupal.ajax[id] != 'undefined') {
+    if (typeof Backdrop.ajax[id] != 'undefined') {
       // @TODO: Jquery 1.5 accept success setting to be an array of functions.
-      // But we have to wait for jquery to get updated in Drupal core.
+      // But we have to wait for jquery to get updated in Backdrop core.
       // In the meantime we have to override it.
-      Drupal.ajax[id].options.success = function (response, status) {
+      Backdrop.ajax[id].options.success = function (response, status) {
         if (typeof response == 'string') {
           response = $.parseJSON(response);
         }
 
         // Update the autocomplete url.
-        Drupal.settings.linkit.currentInstance.autocompletePathParsed = Drupal.settings.linkit.autocompletePath.replace('___profile___', profile);
+        Backdrop.settings.linkit.currentInstance.autocompletePathParsed = Backdrop.settings.linkit.autocompletePath.replace('___profile___', profile);
 
         // Call the ajax success method.
-        Drupal.ajax[id].success(response, status);
+        Backdrop.ajax[id].success(response, status);
         $('#linkit-profile-changer > div.form-item').slideToggle();
       };
     }
   });
 };
 
-Drupal.behaviors.linkitSearch = {
+Backdrop.behaviors.linkitSearch = {
   attach: function(context, settings) {
 
     $('.linkit-search-element').once('linkit-search', function() {
@@ -223,18 +223,18 @@ Drupal.behaviors.linkitSearch = {
             return false;
           }
 
-          Drupal.linkit.populateFields({
+          Backdrop.linkit.populateFields({
             path: result.path
           });
 
           // Store the result title (Used when no selection is made by the user).
-          Drupal.settings.linkit.currentInstance.linkContent = result.title;
+          Backdrop.settings.linkit.currentInstance.linkContent = result.title;
 
           $('.linkit-path-element', context).focus();
         }
       };
 
-      searchElement.betterAutocomplete('init', Drupal.settings.linkit.currentInstance.autocompletePathParsed, Drupal.settings.linkit.currentInstance.autocomplete, callbacks);
+      searchElement.betterAutocomplete('init', Backdrop.settings.linkit.currentInstance.autocompletePathParsed, Backdrop.settings.linkit.currentInstance.autocomplete, callbacks);
     });
   }
 };

@@ -5,7 +5,7 @@
 (function($, behavior) {
   'use strict';
 
-  Drupal.behaviors[behavior] = {
+  Backdrop.behaviors[behavior] = {
     attach: function(context, settings) {
       // If there is no fields, just stop here.
       if (undefined === settings.linkit || null === settings.linkit.fields) {
@@ -22,11 +22,11 @@
 
             // Only care about selection if the element is a textarea.
             if ('textarea' === element.nodeName.toLowerCase()) {
-              instanceCopy.selection = Drupal.linkit.getDialogHelper('field').getSelection(element);
+              instanceCopy.selection = Backdrop.linkit.getDialogHelper('field').getSelection(element);
             }
 
-            Drupal.settings.linkit.currentInstance = instanceCopy;
-            Drupal.linkit.createModal();
+            Backdrop.settings.linkit.currentInstance = instanceCopy;
+            Backdrop.linkit.createModal();
           });
         });
       });
@@ -36,7 +36,7 @@
   /**
    * Linkit field dialog helper.
    */
-  Drupal.linkit.registerDialogHelper('field', {
+  Backdrop.linkit.registerDialogHelper('field', {
     afterInit: function() {},
 
     /**
@@ -46,9 +46,9 @@
      *   The link object.
      */
     insertLink: function(data) {
-      var instance = Drupal.settings.linkit.currentInstance,
+      var instance = Backdrop.settings.linkit.currentInstance,
           // Call the insert plugin.
-          link = Drupal.linkit.getInsertPlugin(instance.insertPlugin).insert(data, instance);
+          link = Backdrop.linkit.getInsertPlugin(instance.insertPlugin).insert(data, instance);
 
       if (instance.hasOwnProperty('selection')) {
         // Replace the selection and insert the link there.
@@ -59,7 +59,7 @@
         // Otherwise, if you use simple insert without autocomplete, then this
         // property will be undefined and title field should not be filled in.
         //
-        // @see Drupal.behaviors.linkitSearch.attach
+        // @see Backdrop.behaviors.linkitSearch.attach
         if (instance.hasOwnProperty('linkContent')) {
           this.replaceFieldValue(instance.titleField, instance.linkContent);
         }
@@ -67,7 +67,7 @@
         // The "path" property will always be present after dialog was
         // opened and contain raw URL.
         //
-        // @see Drupal.behaviors.linkitDashboard.attach
+        // @see Backdrop.behaviors.linkitDashboard.attach
         this.replaceFieldValue(instance.source, data.path);
       }
       else {
@@ -153,7 +153,7 @@
      * accessibility.
      */
     onModalClose: function() {
-      var instance = Drupal.settings.linkit.currentInstance;
+      var instance = Backdrop.settings.linkit.currentInstance;
       $('.linkit-field-' + instance.source).focus();
     }
 

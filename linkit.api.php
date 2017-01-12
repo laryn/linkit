@@ -20,7 +20,7 @@
  *   An array of all search plugins processed within Linkit entity plugin.
  */
 function hook_linkit_search_plugin_entities_alter(&$plugins) {
-  $path = drupal_get_path('module', 'mymodule') . '/plugins/linkit_search';
+  $path = backdrop_get_path('module', 'mymodule') . '/plugins/linkit_search';
   if (isset($plugins['my_custom_plugin'])) {
     $handler = array(
       'class' => 'MyCustomPlugin',
